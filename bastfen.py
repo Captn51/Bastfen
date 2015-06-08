@@ -5,8 +5,7 @@ from ui_bastfen import Ui_Bastfen
 from guy import Guy
 
 class Bastfen(QtWidgets.QMainWindow):
-    """
-    Classe implémentant la GUI du jeu.
+    """Classe implémentant la GUI du jeu.
     """
 
     def __init__(self, parent=None):
@@ -23,7 +22,8 @@ class Bastfen(QtWidgets.QMainWindow):
         self.ui.action_leave.triggered.connect(QtWidgets.QApplication.quit)
 
     def update_ui(self):
-        """
+        """MAJ l'interface.
+
         Met à jour les champs de l'interface en fonction des stats des
         deux personnages.
         """

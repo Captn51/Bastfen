@@ -1,35 +1,33 @@
 # -*- coding: utf-8 -*-
 
 class Guy:
-    """
-    Classe modélisant un gars.
+    """Classe modélisant un gars.
 
     Un gars possède une arme à munitions limitées et non rechargeable mais
     échangeable, des points de vie et des potions régénératrices. Il peut
     taper, boire un coup et changer d'arme.
     """
 
-    # Valeurs communes
-    _weapon_stats = {
-        "tuba":     {"dmg": 10, "ammunitions_max": -1},  # Munitions illimitées
+    _WEAPONS_STATS = {
+        "tuba":     {"dmg": 10, "ammunitions_max": -1}, # Munitions illimitées
         "crosse":   {"dmg": 20, "ammunitions_max": 1},
         "effaceur": {"dmg": 30, "ammunitions_max": 2}
     }
-    _life_max = 100
-    _potions_max = 3
-    _healing_points = 10
+    _LIFE_MAX = 100
+    _POTIONS_MAX = 3
+    _HEALING_POINTS = 10
 
     def __init__(self, name="Anne Onime"):
-        """
-        Initialisation d'un gars.
+        """Initialise un gars.
         """
         self._name = name
-        self._life = self._life_max
-        self._potions = self._potions_max
-        self._weapon = ["tuba", -1]   # Nom et munitions
+        self._life = self._LIFE_MAX
+        self._potions = self._POTIONS_MAX
+        self._weapon = ["tuba", -1]   # Nom et munitions actuelles
 
     def get_stats(self):
-        """
+        """Renvoie les statistiques d'un gars.
+
         Renvoie les statistiques du gars sous forme d'un dictionnaire
         contenant les valeurs name, life, potions et weapon. weapon est aussi
         un dictionnaire contenant les valeur name, dmg et ammunitions.
@@ -40,39 +38,39 @@ class Guy:
             "potions": self._potions,
             "weapon": {
                 "name": self._weapon[0],
-                "dmg": self._weapon_stats[self._weapon[0]]["dmg"],
+                "dmg": self._WEAPONS_STATS[self._weapon[0]]["dmg"],
                 "ammunitions": self._weapon[1]
             }
         }
 
     def beat(self, other_guy):
-        """
-        Tape un gars.
+        """Tape un gars.
 
         Si self a assez de munitions, la vie d'other_guy sera réduite
         d'autant de dégats que fait l'arme de self, sinon il ne se passe rien.
         """
         if self._weapon[1] == -1 or self._weapon[1] > 0:
-            other_guy._life -= self._weapon_stats[self._weapon[0]]["dmg"]
+            other_guy._life -= self._WEAPONS_STATS[self._weapon[0]]["dmg"]
             if self._weapon[1] != -1 and self._weapon[1] != 0:
                 self._weapon[1] -= 1
 
     def change_weapon(self, name):
-        """
-        Change d'arme.
+        """Change d'arme.
 
         Si le nom donné en paramètre ne correspond à aucune arme,
         il ne se passe rien.
         """
-        if name in self._weapon_stats.keys():
-            self._weapon = [name, self._weapon_stats[name]["ammunitions_max"]]
+        if name in self._WEAPONS_STATS.keys():
+            self._weapon = [name, self._WEAPONS_STATS[name]["ammunitions_max"]]
 
     def drink(self):
-        """
-        Boit un coup et régénère la vie de 10 points si self a assez de potions.
+        """Boit un coup.
+
+        Cela permet de régénérer la vie de 10 points si self
+        a assez de potions.
         """
         if self._potions > 0:
-            self._life += self._healing_points
+            self._life += self._HEALING_POINTS
             self._potions -= 1
 
 
