@@ -11,42 +11,41 @@ class Bastfen(QtWidgets.QMainWindow):
     def __init__(self, parent=None):
         super().__init__(parent)
 
-        self.loic = Guy("Loïc")
-        self.hugo = Guy("Hugo")
+        self._loic = Guy("Loïc")
+        self._hugo = Guy("Hugo")
 
-        self.ui = Ui_Bastfen()
-        self.ui.setupUi(self)
-        self.update_ui()
+        self._ui = Ui_Bastfen()
+        self._ui.setupUi(self)
+        self._update_ui()
 
-        self.ui.action_leave.triggered.connect(QtWidgets.QApplication.closeAllWindows)
-        self.ui.action_leave.triggered.connect(QtWidgets.QApplication.quit)
+        self._ui.action_leave.triggered.connect(QtWidgets.qApp.quit)
 
-    def update_ui(self):
+    def _update_ui(self):
         """MAJ l'interface.
 
         Met à jour les champs de l'interface en fonction des stats des
         deux personnages.
         """
-        stats_loic = self.loic.get_stats()
-        stats_hugo = self.hugo.get_stats()
+        stats_loic = self._loic.get_stats()
+        stats_hugo = self._hugo.get_stats()
 
-        self.ui.loic_life.setText(str(stats_loic["life"]))
-        self.ui.loic_potions.setText(str(stats_loic["potions"]))
-        self.ui.loic_weapon_name.setText(stats_loic["weapon"]["name"])
-        self.ui.loic_dmg.setText(str(stats_loic["weapon"]["dmg"]))
+        self._ui.loic_life.setText(str(stats_loic["life"]))
+        self._ui.loic_potions.setText(str(stats_loic["potions"]))
+        self._ui.loic_weapon_name.setText(stats_loic["weapon"]["name"])
+        self._ui.loic_dmg.setText(str(stats_loic["weapon"]["dmg"]))
         ammunitions = stats_loic["weapon"]["ammunitions"]
-        if ammunitions == -1:
-            self.ui.loic_ammunitions.setText("-")
+        if ammunitions == Guy.UNLIMITED:
+            self._ui.loic_ammunitions.setText("-")
         else:
-            self.ui.loic_ammunitions.setText(str(ammunitions))
+            self._ui.loic_ammunitions.setText(str(ammunitions))
 
-        self.ui.hugo_life.setText(str(stats_hugo["life"]))
-        self.ui.hugo_potions.setText(str(stats_hugo["potions"]))
-        self.ui.hugo_weapon_name.setText(stats_hugo["weapon"]["name"])
-        self.ui.hugo_dmg.setText(str(stats_hugo["weapon"]["dmg"]))
+        self._ui.hugo_life.setText(str(stats_hugo["life"]))
+        self._ui.hugo_potions.setText(str(stats_hugo["potions"]))
+        self._ui.hugo_weapon_name.setText(stats_hugo["weapon"]["name"])
+        self._ui.hugo_dmg.setText(str(stats_hugo["weapon"]["dmg"]))
         ammunitions = stats_hugo["weapon"]["ammunitions"]
-        if ammunitions == -1:
-            self.ui.hugo_ammunitions.setText("-")
+        if ammunitions == Guy.UNLIMITED:
+            self._ui.hugo_ammunitions.setText("-")
         else:
-            self.ui.hugo_ammunitions.setText(str(ammunitions))
+            self._ui.hugo_ammunitions.setText(str(ammunitions))
 

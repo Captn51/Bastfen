@@ -8,8 +8,10 @@ class Guy:
     taper, boire un coup et changer d'arme.
     """
 
+    UNLIMITED = -1
+
     _WEAPONS_STATS = {
-        "tuba":     {"dmg": 10, "ammunitions_max": -1}, # Munitions illimitées
+        "tuba":     {"dmg": 10, "ammunitions_max": UNLIMITED},
         "crosse":   {"dmg": 20, "ammunitions_max": 1},
         "effaceur": {"dmg": 30, "ammunitions_max": 2}
     }
@@ -21,9 +23,12 @@ class Guy:
         """Initialise un gars.
         """
         self._name = name
-        self._life = self._LIFE_MAX
-        self._potions = self._POTIONS_MAX
-        self._weapon = ["tuba", -1]   # Nom et munitions actuelles
+        self._life = type(self)._LIFE_MAX
+        self._potions = type(self)._POTIONS_MAX
+        self._weapon = {
+            "name": "tuba",
+            "ammunitions": type(self).UNLIMITED
+        }
 
     def get_stats(self):
         """Renvoie les statistiques d'un gars.
@@ -37,9 +42,9 @@ class Guy:
             "life": self._life,
             "potions": self._potions,
             "weapon": {
-                "name": self._weapon[0],
-                "dmg": self._WEAPONS_STATS[self._weapon[0]]["dmg"],
-                "ammunitions": self._weapon[1]
+                "name": self._weapon["name"],
+                "dmg": type(self)._WEAPONS_STATS[self._weapon["name"]]["dmg"],
+                "ammunitions": self._weapon["ammunitions"]
             }
         }
 
@@ -49,10 +54,12 @@ class Guy:
         Si self a assez de munitions, la vie d'other_guy sera réduite
         d'autant de dégats que fait l'arme de self, sinon il ne se passe rien.
         """
-        if self._weapon[1] == -1 or self._weapon[1] > 0:
-            other_guy._life -= self._WEAPONS_STATS[self._weapon[0]]["dmg"]
-            if self._weapon[1] != -1 and self._weapon[1] != 0:
-                self._weapon[1] -= 1
+        if (self._weapon["ammunitions"] == type(self).UNLIMITED or
+                self._weapon["ammunitions"] > 0):
+            other_guy._life -= type(self)._WEAPONS_STATS[self._weapon["name"]]["dmg"]
+            if (self._weapon["ammunitions"] != type(self).UNLIMITED and
+                    self._weapon["ammunitions"] != 0):
+                self._weapon["ammunitions"] -= 1
 
     def change_weapon(self, name):
         """Change d'arme.
@@ -60,8 +67,11 @@ class Guy:
         Si le nom donné en paramètre ne correspond à aucune arme,
         il ne se passe rien.
         """
-        if name in self._WEAPONS_STATS.keys():
-            self._weapon = [name, self._WEAPONS_STATS[name]["ammunitions_max"]]
+        if name in type(self)._WEAPONS_STATS.keys():
+            self._weapon = {
+                "name": name,
+                "ammunitions": type(self)._WEAPONS_STATS[name]["ammunitions_max"]
+            }
 
     def drink(self):
         """Boit un coup.
@@ -70,7 +80,7 @@ class Guy:
         a assez de potions.
         """
         if self._potions > 0:
-            self._life += self._HEALING_POINTS
+            self._life += type(self)._HEALING_POINTS
             self._potions -= 1
 
 

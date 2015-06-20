@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'C:/Users/MYASUS2/Documents/MesProgs/Bastfen/bastfen.ui'
 #
-# Created: Sat Jun  6 11:35:27 2015
+# Created: Sat Jun 20 11:29:27 2015
 #      by: PyQt5 UI code generator 5.3.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -234,7 +234,7 @@ class Ui_Bastfen(object):
 
     def retranslateUi(self, Bastfen):
         _translate = QtCore.QCoreApplication.translate
-        Bastfen.setWindowTitle(_translate("Bastfen", "BastFen"))
+        Bastfen.setWindowTitle(_translate("Bastfen", "Bastfen"))
         self.groupBox.setTitle(_translate("Bastfen", "Loïc"))
         self.label_2.setText(_translate("Bastfen", "Vie :"))
         self.loic_life.setText(_translate("Bastfen", "EFFACEUR"))
