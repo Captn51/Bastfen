@@ -54,8 +54,11 @@ class Guy:
         Si self a assez de munitions, la vie d'other_guy sera réduite
         d'autant de dégats que fait l'arme de self, sinon il ne se passe rien.
         """
-        if (self._weapon["ammunitions"] == type(self).UNLIMITED or
-                self._weapon["ammunitions"] > 0):
+        other_guy_is_alive = (other_guy._life > 0)
+        self_has_ammunitions = (self._weapon["ammunitions"] > 0 or
+            self._weapon["ammunitions"] == type(self).UNLIMITED)
+
+        if other_guy_is_alive and self_has_ammunitions:
             other_guy._life -= type(self)._WEAPONS_STATS[self._weapon["name"]]["dmg"]
             if (self._weapon["ammunitions"] != type(self).UNLIMITED and
                     self._weapon["ammunitions"] != 0):
