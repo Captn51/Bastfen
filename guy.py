@@ -9,12 +9,12 @@ class Guy:
     """
 
     UNLIMITED = -1
-
-    _WEAPONS_STATS = {
+    WEAPONS_STATS = {
         "tuba":     {"dmg": 10, "ammunitions_max": UNLIMITED},
-        "crosse":   {"dmg": 20, "ammunitions_max": 1},
-        "effaceur": {"dmg": 30, "ammunitions_max": 2}
+        "crosse":   {"dmg": 20, "ammunitions_max": 2},
+        "effaceur": {"dmg": 30, "ammunitions_max": 1}
     }
+
     _LIFE_MAX = 100
     _POTIONS_MAX = 3
     _HEALING_POINTS = 10
@@ -43,7 +43,7 @@ class Guy:
             "potions": self._potions,
             "weapon": {
                 "name": self._weapon["name"],
-                "dmg": type(self)._WEAPONS_STATS[self._weapon["name"]]["dmg"],
+                "dmg": type(self).WEAPONS_STATS[self._weapon["name"]]["dmg"],
                 "ammunitions": self._weapon["ammunitions"]
             }
         }
@@ -55,13 +55,15 @@ class Guy:
         d'autant de dégats que fait l'arme de self, sinon il ne se passe rien.
         """
         other_guy_is_alive = (other_guy._life > 0)
-        self_has_ammunitions = (self._weapon["ammunitions"] > 0 or
-            self._weapon["ammunitions"] == type(self).UNLIMITED)
+        self_has_ammunitions = (self._weapon["ammunitions"] != 0)
 
         if other_guy_is_alive and self_has_ammunitions:
-            other_guy._life -= type(self)._WEAPONS_STATS[self._weapon["name"]]["dmg"]
-            if (self._weapon["ammunitions"] != type(self).UNLIMITED and
-                    self._weapon["ammunitions"] != 0):
+            other_guy._life -= type(self).WEAPONS_STATS[self._weapon["name"]]["dmg"]
+
+            if other_guy._life < 0:
+                other_guy._life = 0
+
+            if self._weapon["ammunitions"] > 0:
                 self._weapon["ammunitions"] -= 1
 
     def change_weapon(self, name):
@@ -70,10 +72,10 @@ class Guy:
         Si le nom donné en paramètre ne correspond à aucune arme,
         il ne se passe rien.
         """
-        if name in type(self)._WEAPONS_STATS.keys():
+        if name in type(self).WEAPONS_STATS.keys():
             self._weapon = {
                 "name": name,
-                "ammunitions": type(self)._WEAPONS_STATS[name]["ammunitions_max"]
+                "ammunitions": type(self).WEAPONS_STATS[name]["ammunitions_max"]
             }
 
     def drink(self):
@@ -87,62 +89,5 @@ class Guy:
             self._potions -= 1
 
 
-# C'est parti, on teste
-if __name__ == "__main__":
-    loic = Guy("Loïc")
-    hugo = Guy("Hugo")
-    print(loic.get_stats())
-    print(hugo.get_stats())
-
-    i = 0
-    print(i, ")-----")
-    loic.beat(hugo)
-    print(loic.get_stats())
-    print(hugo.get_stats())
-
-    i += 1
-    print(i, ")-----")
-    loic.change_weapon("ok")
-    print(loic.get_stats())
-
-    i += 1
-    print(i, ")-----")
-    loic.change_weapon("crosse")
-    print(loic.get_stats())
-
-    i += 1
-    print(i, ")-----")
-    loic.beat(hugo)
-    print(loic.get_stats())
-    print(hugo.get_stats())
-
-    i += 1
-    print(i, ")-----")
-    loic.beat(hugo)
-    print(loic.get_stats())
-    print(hugo.get_stats())
-
-    i += 1
-    print(i, ")-----")
-    hugo.drink()
-    hugo.change_weapon("effaceur")
-    print(hugo.get_stats())
-
-    i += 1
-    print(i, ")-----")
-    hugo.beat(loic)
-    print(loic.get_stats())
-    print(hugo.get_stats())
-
-    i += 1
-    print(i, ")-----")
-    hugo.beat(loic)
-    print(loic.get_stats())
-    print(hugo.get_stats())
-
-    i += 1
-    print(i, ")-----")
-    hugo.beat(loic)
-    print(loic.get_stats())
-    print(hugo.get_stats())
+# TODO: tests unitaires !!
 
