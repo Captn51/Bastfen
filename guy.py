@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+
 class Guy:
     """Classe modélisant un gars.
 
@@ -10,9 +11,9 @@ class Guy:
 
     UNLIMITED = -1
     WEAPONS_STATS = {
-        "tuba":     {"dmg": 10, "ammunitions_max": UNLIMITED},
-        "crosse":   {"dmg": 20, "ammunitions_max": 2},
-        "effaceur": {"dmg": 30, "ammunitions_max": 1}
+        "TUBA":     {"dmg": 10, "ammunitions_max": UNLIMITED},
+        "CROSSE":   {"dmg": 20, "ammunitions_max": 2},
+        "EFFACEUR": {"dmg": 30, "ammunitions_max": 1}
     }
 
     _LIFE_MAX = 100
@@ -26,7 +27,7 @@ class Guy:
         self._life = type(self)._LIFE_MAX
         self._potions = type(self)._POTIONS_MAX
         self._weapon = {
-            "name": "tuba",
+            "name": "TUBA",
             "ammunitions": type(self).UNLIMITED
         }
 

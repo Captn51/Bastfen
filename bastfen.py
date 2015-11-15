@@ -77,6 +77,27 @@ class Bastfen(QtWidgets.QMainWindow):
         self._ui.pb_drink.setText("{} boit un coup".format(player_1))
         self._ui.pb_change_weapon.setText("{} change d'arme".format(player_1))
 
+    def _reset(self):
+        """Prépare une nouvelle partie.
+        """
+        # Réactivation des boutons
+        self._ui.pb_beat.setEnabled(True)
+        self._ui.pb_drink.setEnabled(True)
+        self._ui.pb_change_weapon.setEnabled(True)
+
+        # Les persos sont morts ou fatigués : résuuurectiooonnn !!
+        self._loic = Guy("Loïc")
+        self._hugo = Guy("Hugo")
+        self._current_player = choice(["Loïc", "Hugo"])
+
+        self._update_ui()
+
+        QtWidgets.QMessageBox.information(
+            self,
+            "Bastfen : Nouvelle partie",
+            "Et c'est reparti !!\n\n{} !! A toi de jouer !!".format(self._current_player)
+        )
+
     def _end_of_game(self):
         """Gestion de la fin de jeu.
 
@@ -91,10 +112,13 @@ class Bastfen(QtWidgets.QMainWindow):
             self,
             "Bastfen : Fin du jeu",
             "{} a perdu !!\n\nVoulez-vous rejouer ? :)".format(self._current_player),
-            QtWidgets.QMessageBox.Yes|QtWidgets.QMessageBox.No
+            QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.No
         )
 
-        # TODO: quitter proprement et reset
+        if replay == QtWidgets.QMessageBox.Yes:
+            self._reset()
+        else:
+            QtWidgets.qApp.quit()
 
     def _drink(self):
         """Un personnage boit un coup.
