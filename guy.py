@@ -28,7 +28,7 @@ class Guy:
         self._potions = type(self)._POTIONS_MAX
         self._weapon = {
             "name": "TUBA",
-            "ammunitions": type(self).UNLIMITED
+            "ammunitions": type(self).WEAPONS_STATS["TUBA"]["ammunitions_max"]
         }
 
     def get_stats(self):
@@ -87,8 +87,8 @@ class Guy:
         """
         if self._potions > 0:
             self._life += type(self)._HEALING_POINTS
+            if self._life > type(self)._LIFE_MAX:
+                self._life = type(self)._LIFE_MAX
+
             self._potions -= 1
-
-
-# TODO: tests unitaires !!
 
