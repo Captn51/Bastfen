@@ -24,11 +24,11 @@ class Guy:
         """Initialise un gars.
         """
         self._name = name
-        self._life = type(self)._LIFE_MAX
-        self._potions = type(self)._POTIONS_MAX
+        self._life = self._LIFE_MAX
+        self._potions = self._POTIONS_MAX
         self._weapon = {
             "name": "TUBA",
-            "ammunitions": type(self).WEAPONS_STATS["TUBA"]["ammunitions_max"]
+            "ammunitions": self.WEAPONS_STATS["TUBA"]["ammunitions_max"]
         }
 
     def get_stats(self):
@@ -44,7 +44,7 @@ class Guy:
             "potions": self._potions,
             "weapon": {
                 "name": self._weapon["name"],
-                "dmg": type(self).WEAPONS_STATS[self._weapon["name"]]["dmg"],
+                "dmg": self.WEAPONS_STATS[self._weapon["name"]]["dmg"],
                 "ammunitions": self._weapon["ammunitions"]
             }
         }
@@ -55,11 +55,11 @@ class Guy:
         Si self a assez de munitions, la vie d'other_guy sera réduite
         d'autant de dégats que fait l'arme de self, sinon il ne se passe rien.
         """
-        other_guy_is_alive = (other_guy._life > 0)
-        self_has_ammunitions = (self._weapon["ammunitions"] != 0)
+        other_guy_is_alive = other_guy._life > 0
+        self_has_ammunitions = self._weapon["ammunitions"] != 0
 
         if other_guy_is_alive and self_has_ammunitions:
-            other_guy._life -= type(self).WEAPONS_STATS[self._weapon["name"]]["dmg"]
+            other_guy._life -= self.WEAPONS_STATS[self._weapon["name"]]["dmg"]
 
             if other_guy._life < 0:
                 other_guy._life = 0
@@ -73,10 +73,10 @@ class Guy:
         Si le nom donné en paramètre ne correspond à aucune arme,
         il ne se passe rien.
         """
-        if name in type(self).WEAPONS_STATS.keys():
+        if name in self.WEAPONS_STATS.keys():
             self._weapon = {
                 "name": name,
-                "ammunitions": type(self).WEAPONS_STATS[name]["ammunitions_max"]
+                "ammunitions": self.WEAPONS_STATS[name]["ammunitions_max"]
             }
 
     def drink(self):
@@ -86,9 +86,9 @@ class Guy:
         a assez de potions.
         """
         if self._potions > 0:
-            self._life += type(self)._HEALING_POINTS
-            if self._life > type(self)._LIFE_MAX:
-                self._life = type(self)._LIFE_MAX
+            self._life += self._HEALING_POINTS
+            if self._life > self._LIFE_MAX:
+                self._life = self._LIFE_MAX
 
             self._potions -= 1
 
